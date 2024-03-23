@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Cashier>
+
+<h1>Cashiers</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cashier ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cashier in Model)
+        {
+            <tr>
+                <td>@cashier.CashierId</td>
+                <td>@cashier.Name</td>
+                <td>
+                    <div style="display: flex;">
+                    <form asp-action="Edit" asp-route-id="@cashier.CashierId" method="get">
+                            <button type="submit" class="btn btn-warning">Edit</button>
+                    </form>
+                        <div style="margin-left: 10px;">
+@*                     <a asp-action="Edit" asp-route-id="@cashier.CashierId">Edit</a> |
+ *@@*                     <a asp-action="Delete" asp-route-id="@cashier.CashierId">Delete</a>*@
+                    <form asp-action="Delete" asp-route-id="@cashier.CashierId" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

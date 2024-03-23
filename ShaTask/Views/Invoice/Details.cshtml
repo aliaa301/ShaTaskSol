@@ -1,0 +1,63 @@
+﻿
+@model ShaTask.Core.Models.Invoice
+
+<h1>Invoice Details</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">Invoice ID:</dt>
+    <dd class="col-sm-10">@Model.InvoiceId</dd>
+
+    <dt class="col-sm-2">Customer Name:</dt>
+    <dd class="col-sm-10">@Model.CustomerName</dd>
+
+    <dt class="col-sm-2">Invoice Date:</dt>
+    <dd class="col-sm-10">@Model.InvoiceDate.ToString("yyyy-MM-dd")</dd>
+
+</dl>
+
+
+
+  @* appear all items in one row *@
+<h2>Invoice Items</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @foreach (var item in Model.Items)
+                {
+                    @item.Description
+                    @if (!item.Equals(Model.Items.Last())) // Add comma after all but the last item
+                    {
+                        @Html.Raw(", ")
+                    }
+                }
+            </td>
+            <td>
+                @{
+                    var prices = string.Join(", ", Model.Items.Select(item => item.Price.ToString()));
+                    @prices
+                }
+            </td>
+            <td>
+                @{
+                    var quantities = string.Join(", ", Model.Items.Select(item => item.Quantity.ToString()));
+                    @quantities
+                }
+            </td>
+            </td>
+            <!-- Add more item properties here -->
+            <td colspan="3"><strong>Total Price: @ViewBag.TotalPrice</strong></td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-primary">Back to List</a>

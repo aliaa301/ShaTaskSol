@@ -1,0 +1,81 @@
+﻿
+ @model ShaTask.Core.ViewModels.InvoiceViewModel
+
+<h1>Edit Invoice</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="InvoiceId" />
+
+    <div class="form-group">
+        <label asp-for="CustomerName" class="control-label"></label>
+        <input asp-for="CustomerName" class="form-control" />
+        <span asp-validation-for="CustomerName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="InvoiceDate" class="control-label"></label>
+        <input asp-for="InvoiceDate" class="form-control" />
+        <span asp-validation-for="InvoiceDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CashierId" class="control-label"></label>
+        <select asp-for="CashierId" class="form-control">
+            <option value="">-- Select Cashier --</option>
+            @foreach (var cashier in Model.AvailableCashiers)
+            {
+                <option value="@cashier.CashierId">@cashier.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CashierId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" id="items">
+        <h4>Invoice Items</h4>
+        @for (var i = 0; i < Model.Items.Count; i++)
+        {
+            var item = Model.Items.ElementAtOrDefault(i);
+            if (item != null)
+            {
+                <div class="item">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input name="Items[@i].Description" class="form-control" value="@item.Description" />
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input name="Items[@i].Price" class="form-control" value="@item.Price" />
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input name="Items[@i].Quantity" class="form-control" value="@item.Quantity" />
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+    <button type="submit" class="btn btn-success">Update</button>
+</form>
+
+@section Scripts {
+    <script>
+        function addItem() {
+            var index = $("#items .item").length;
+            var itemHtml = `
+                <div class="item">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input name="Items[${index}].Description" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input name="Items[${index}].Price" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input name="Items[${index}].Quantity" class="form-control" />
+                    </div>
+                </div>`;
+            $("#items").append(itemHtml);
+        }
+    </script>
+}

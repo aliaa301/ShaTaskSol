@@ -1,0 +1,35 @@
+﻿ 
+ @model IEnumerable<ShaTask.Core.ViewModels.InvoiceViewModel>
+
+<h1>Invoices</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer Name</th>
+            <th>Invoice Date</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+            <tr>
+                <td>@invoice.InvoiceId</td>
+                <td>@invoice.CustomerName</td>
+                <td>@invoice.InvoiceDate.ToShortDateString()</td>
+                <td>@invoice.TotalPrice.ToString("C")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@invoice.InvoiceId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@invoice.InvoiceId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@invoice.InvoiceId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
